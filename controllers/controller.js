@@ -253,9 +253,7 @@ const sendOtp = [
       db.query(query, [email, otp], (err) => {
         if (err) {
           console.error("Database error while storing OTP:", err);
-          return res
-            .status(500)
-            .json({ message: "Failed to store OTP", error: err });
+          return res.status(500).json({ message: "Failed to store OTP", error: err });
         }
         res.status(200).json({ response: "OTP sent successfully" });
       });

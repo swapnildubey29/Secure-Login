@@ -40,10 +40,12 @@ body{
 .wrapper form{
   margin-top: 30px;
 }
+
 .wrapper form .input-box{
   height: 52px;
   margin: 18px 0;
 }
+
 form .input-box input{
   height: 100%;
   width: 100%;
@@ -57,6 +59,7 @@ form .input-box input{
   border-radius: 6px;
   transition: all 0.3s ease;
 }
+
 .input-box input:focus,
 .input-box input:valid{
   border-color: #4070f4;
@@ -98,12 +101,15 @@ form .text h3 a:hover{
   position: relative;
 }
 
-#togglePassword {
+.toggle-icon {
   position: absolute;
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 18px;
-  color: #333;
+  color: #4070f4;
+}
+.input-box {
+  position: relative;
 }
