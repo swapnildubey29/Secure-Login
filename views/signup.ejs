@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="stylesheet" href="./assets/signup.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <h2>Register</h2>
+    <form id="signupForm" action="/signup" method="POST">
+      <div class="input-box">
+        <input type="text" name="name" id="name" placeholder="Enter your name" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="email" id="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password" id="password" placeholder="Create password" required>
+      </div>
+      <div class="input-box">
+        <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm password" required>
+      </div>    
+      <div class="policy">
+        <input type="checkbox" required>
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="submit" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="/">Login now</a></h3>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function (event) {
+      const name = document.getElementById("name").value
+      const email = document.getElementById("email").value
+      const password = document.getElementById("password").value
+      const confirmpassword = document.getElementById("confirmpassword").value
+
+      if (!name || !email || !password || !confirmpassword) {
+        event.preventDefault()
+        alert("Please enter all fields");
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)){
+        alert("Please enter a valid email address.");
+        event.preventDefault();
+        return;
+      }
+
+      if (password !== confirmpassword) {
+        event.preventDefault()
+        alert("Passwords do not match.");
+        return;
+      }
+
+    })
+
+  </script>
+</body>
+
+</html>

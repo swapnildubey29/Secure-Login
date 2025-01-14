@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="title"><span>Login Form</span></div>
+    <form id="loginForm" action="/login" method="POST">
+      <div class="row">
+        <i class="fas fa-user"></i>
+        <input id="email" type="text" name="email" placeholder="Email or Phone" required />
+      </div>
+      <div class="row">
+        <i class="fas fa-lock"></i>
+        <input id="password" type="password" name="password" placeholder="Password" required />
+      </div>
+      <div class="pass"><a href="/forgotpassword">Forgot password?</a></div>
+      <div class="row button">
+        <input type="submit" id="loginButton" value="Login" />
+      </div>
+      <div class="signup-link">Not a member? <a href="/signup">Signup now</a></div>
+    </form>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3/dist/js.cookie.min.js"></script>
+<script>
+  document.getElementById("loginForm").addEventListener("submit", function (event) {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      event.preventDefault()
+      alert("Please fill all the fields")
+      return;
+    }
+  });
+
+  window.addEventListener("load", function () {
+    fetchCookie()
+    const jwtToken = Cookies.get("jwt")
+    if (jwtToken && typeof jwtToken === "string") {
+      verifyJWT(jwtToken)
+    }
+  });
+
+  function fetchCookie() {
+    fetch("/getcookie")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Cookie:", data)
+        if (data && data.jwt) {
+          verifyJWT(data.jwt);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching cookie:", error)
+      });
+  }
+
+  function verifyJWT(token) {
+    if (!token || typeof token !== "string") {
+      console.error("Invalid token format")
+      return;
+    }
+
+    fetch("/verifyJwt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = data.redirect;
+        } else {
+          console.error("Error verifying JWT token:", data.error)
+        }
+      })
+      .catch((error) => {
+        console.error("Error verifying JWT token:", error)
+      });
+  }
+</script>
+
+</html>
