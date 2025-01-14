@@ -41,10 +41,25 @@ body {
   padding: 25px 35px;
 }
 
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  z-index: 1;
+}
+
 .wrapper form .row {
   height: 60px;
   margin-top: 15px;
   position: relative;
+}
+
+.wrapper form .row + .row {
+  margin-top: 30px; 
 }
 
 .wrapper form .row input {
@@ -81,7 +96,7 @@ form .row input::placeholder {
 }
 
 .wrapper form .pass {
-  margin-top: 12px;
+  margin-top: 30px;
 }
 
 .wrapper form .pass a {
@@ -122,4 +137,14 @@ form .button input:hover {
 
 form .signup-link a:hover {
   text-decoration: underline;
+}
+
+.wrapper form .row #togglePassword {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s ease;
 }

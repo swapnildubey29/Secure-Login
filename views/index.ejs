@@ -16,11 +16,15 @@
       <div class="row">
         <i class="fas fa-user"></i>
         <input id="email" type="text" name="email" placeholder="Email or Phone" required />
+        <div id="emailError" class="error-message">Invalid email</div>
       </div>
       <div class="row">
         <i class="fas fa-lock"></i>
         <input id="password" type="password" name="password" placeholder="Password" required />
+        <i id="togglePassword" class="fas fa-eye"></i>
+        <div id="passwordError" class="error-message">Password must be at least 6 characters</div>
       </div>
+
       <div class="pass"><a href="/forgotpassword">Forgot password?</a></div>
       <div class="row button">
         <input type="submit" id="loginButton" value="Login" />
@@ -41,6 +45,60 @@
       return;
     }
   });
+
+  document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordField = document.getElementById("password")
+    const type = passwordField.type === "password" ? "text" : "password";
+    passwordField.type = type;
+    this.classList.toggle("fa-eye")
+    this.classList.toggle("fa-eye-slash")
+  });
+
+  document.getElementById("email").addEventListener("input", function () {
+    const emailError = document.getElementById("emailError");
+    if (this.value.includes("@")) {
+      emailError.style.display = "none";
+    } else {
+      emailError.textContent = "Invalid email";
+      emailError.style.display = "block";
+    }
+  });
+
+  document.getElementById("password").addEventListener("input", function () {
+    const passwordError = document.getElementById("passwordError");
+    if (this.value.length >= 6) {
+      passwordError.style.display = "none";
+    } else {
+      passwordError.textContent = "Password must be at least 6 characters";
+      passwordError.style.display = "block";
+    }
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", function (event) {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    let isValid = true;
+
+    if (!email.includes("@")) {
+      emailError.textContent = "Invalid email";
+      emailError.style.display = "block";
+      isValid = false;
+    }
+
+    if (password.length < 6) {
+      passwordError.textContent = "Password must be at least 6 characters";
+      passwordError.style.display = "block";
+      isValid = false;
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+
 
   window.addEventListener("load", function () {
     fetchCookie()

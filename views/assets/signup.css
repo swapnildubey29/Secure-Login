@@ -93,3 +93,17 @@ form .text h3 a{
 form .text h3 a:hover{
   text-decoration: underline;
 }
+
+.wrapper .row {
+  position: relative;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}

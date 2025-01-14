@@ -17,13 +17,19 @@
       </div>
       <div class="input-box">
         <input type="text" name="email" id="email" placeholder="Enter your email" required>
+        <div id="emailError" style="color: red; display: none; font-size: 12px;"></div>
+
       </div>
       <div class="input-box">
         <input type="password" name="password" id="password" placeholder="Create password" required>
+        <div id="passwordError" style="color: red; display: none; font-size: 12px;"></div>
       </div>
+
       <div class="input-box">
         <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm password" required>
-      </div>    
+        <div id="confirmpasswordError" style="color: red; display: none; font-size: 12px;"></div>
+      </div>
+
       <div class="policy">
         <input type="checkbox" required>
         <h3>I accept all terms & condition</h3>
@@ -39,6 +45,45 @@
   </div>
 
   <script>
+    document.getElementById("password").addEventListener("input", function () {
+      const passwordError = document.getElementById("passwordError");
+      if (this.value.length >= 6) {
+        passwordError.style.display = "none";
+      } else {
+        passwordError.textContent = "Password must be at least 6 characters";
+        passwordError.style.display = "block";
+      }
+    });
+
+    document.getElementById("confirmpassword").addEventListener("input", function () {
+      const confirmPasswordError = document.getElementById("confirmpasswordError");
+      const password = document.getElementById("password").value;
+      if (this.value === password) {
+        confirmPasswordError.style.display = "none";
+        if (this.value.length >= 6) {
+          passwordError.style.display = "none";
+        } else {
+          passwordError.textContent = "Password must be at least 6 characters";
+          passwordError.style.display = "block";
+        }
+      } else {
+        confirmPasswordError.textContent = "Passwords do not match";
+        confirmPasswordError.style.display = "block";
+      }
+    });
+
+    document.getElementById("email").addEventListener("input", function () {
+      const emailError = document.getElementById("emailError")
+      const emailValue = this.value;
+      if (!emailValue.includes('@')) {
+        emailError.textContent = "Invalid email";
+        emailError.style.display = "block";
+      } else {
+        emailError.style.display = "none";
+      }
+    });
+
+    // Form submission validation
     document.getElementById("signupForm").addEventListener("submit", function (event) {
       const name = document.getElementById("name").value
       const email = document.getElementById("email").value
@@ -52,7 +97,7 @@
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)){
+      if (!emailRegex.test(email)) {
         alert("Please enter a valid email address.");
         event.preventDefault();
         return;
@@ -65,8 +110,9 @@
       }
 
     })
-
   </script>
+
+
 </body>
 
 </html>
