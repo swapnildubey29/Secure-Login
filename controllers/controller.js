@@ -1,9 +1,9 @@
-const rateLimit = require("express-rate-limit")
-const { body, validationResult } = require("express-validator")
 const db = require("../config/db")
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
-const crypto = require("crypto")
+const crypto = require("crypto") 
+const rateLimit = require("express-rate-limit")
+const { body, validationResult } = require("express-validator")
 
 //limiting configuration
 const signupLimiter = rateLimit({
@@ -204,7 +204,7 @@ const generateOtp = () => {
   return Math.floor(100000 + Math.random() * 900000).toString()
 };
 
-// Forget Password
+// Forgot Password
 const sendOtp = [
   otpLimiter,
   async (req, res) => {
@@ -219,7 +219,7 @@ const sendOtp = [
     const transporter = nodemailer.createTransport({
       service: "gmail",
       port: 465,
-      secure: true,
+      secure: true, 
       logger: true,
       debug: true,
       secureconnection: false,
@@ -242,7 +242,7 @@ const sendOtp = [
 
     try {
       await transporter.sendMail(mailOption);
-      console.log(`OTP sent to ${email}: ${otp}`);
+      // console.log(`OTP sent to ${email}: ${otp}`);
 
       const query = `
         INSERT INTO resetotp (email, otp)
