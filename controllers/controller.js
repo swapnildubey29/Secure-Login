@@ -28,12 +28,8 @@ const otpLimiter = rateLimit({
 const signup = [
   body("name").notEmpty().withMessage("Name is required"),
   body("email").isEmail().withMessage("Invalid email address"),
-  body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters"),
-  body("confirmpassword")
-    .custom((value, { req }) => value === req.body.password)
-    .withMessage("Passwords do not match"),
+  body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
+  body("confirmpassword").custom((value, { req }) => value === req.body.password).withMessage("Passwords do not match"),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -56,12 +52,9 @@ const signup = [
         }
 
         const salt = crypto.randomBytes(16).toString("hex")
-
+                                
         //Hashing the password with the salt using SHA-256
-        const hashedPassword = crypto
-          .createHmac("sha256", salt)
-          .update(password)
-          .digest("hex");
+        const hashedPassword = crypto.createHmac("sha256", salt).update(password).digest("hex");
 
         const insertQuery =
           "INSERT INTO users (name, email, password, salt) VALUES (?, ?, ?, ?)";
@@ -77,10 +70,9 @@ const signup = [
             // Generate JWT
             const token = jwt.sign({ email }, process.env.SECRET_KEY, {
               expiresIn: "10d",
-            });
-
-            res.cookie("jwt", token, {
-              maxAge: 10 * 24 * 60 * 1000,
+            })
+             res.cookie("jwt", token, {
+              maxAge: 10 * 24 * 60 * 1000, // 10Days
               httpOnly: true,
             });
 
@@ -138,7 +130,7 @@ const login = [
         });
 
         res.cookie("jwt", token, {
-          maxAge: 10 * 24 * 60 * 1000,
+          maxAge: 10 * 24 * 60 * 1000, // 10Days 
           httpOnly: true,
         });
         res.redirect("/dashboard");
